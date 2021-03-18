@@ -4,6 +4,7 @@ using DoctorRegistr.Services;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 
 namespace DoctorRegistr
 {
@@ -91,18 +92,30 @@ namespace DoctorRegistr
                 Name = "Хирург"
             };
 
+
+
+            var doctorAccess = new DoctorDataAccess();
+            var listOfDoc = doctorAccess.Select().ToList();
+
+
             Console.WriteLine("Выберите врача");
             var choose = new List<int>();
             int number = 0;
-            foreach (var doc in doctors)
+            foreach (var doc in listOfDoc)
             {
                 choose.Add(number);
                 Console.Write(doc.FullName);
                 Console.Write(" - ");
                 Console.WriteLine(choose[number]);
             }
-
             int.TryParse(Console.ReadLine(), out int numberOfDoc);
+
+            var scheduleAccess = new ScheduleDataAccess();
+            var listOfSchedules = scheduleAccess.Select().ToList();
+
+            var visitAccess = new TimesToVisitsDataAccess();
+            var listOfVisits = visitAccess.Select().ToList();
+
             choose = null;
             number = 0;
             Doctor DocOfPatient = null;
@@ -113,9 +126,9 @@ namespace DoctorRegistr
                 {
                     DocOfPatient = doc;
                 }
-                foreach (var schedule in scheduls)
+                foreach (var schedule in listOfSchedules)
                 {
-                    if (schedule.Id == DocOfPatient.ScheduleId && schedule.TimesOfVisitsId == visits[number])
+                    if (schedule.Id == DocOfPatient.ScheduleId && schedule.TimesOfVisitsId == listOfVisits[number])
                     {
                         Console.WriteLine(visits[number]);
                     }
@@ -123,6 +136,17 @@ namespace DoctorRegistr
             }
 
             int.TryParse(Console.ReadLine(), out int numberOfVisit);
+
+            var patientAccess = new PatientDataAccess();
+            var listOfPatient = patientAccess.Select().ToList();
+            Console.WriteLine("Введите имя");
+            string nameOfPatient = Console.ReadLine();
+            var newPatient = new Patient
+            {
+                FullName = nameOfPatient,
+                TimeOfVisitId =
+            };
+            listOfPatient.Add(newPatient);
         }
 
 
