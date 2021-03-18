@@ -13,13 +13,12 @@ namespace DoctorRegistr
         {
             InitConfiguration();
 
-
             CultureInfo enUS = new CultureInfo("en-US");
 
             var doctors = new List<Doctor>
             {
                 new Doctor
-                { 
+                {
                     FullName = "Ivan Ivanov",
                     SpecialId = Guid.Parse("6E5D08FA-9E66-4639-9742-06F9DF4197A7"),
                     ScheduleId = Guid.Parse("A30B3F5A-7744-4B6D-B99A-1D15848A5B3A"),
@@ -81,18 +80,49 @@ namespace DoctorRegistr
                 }
             };
 
-            var therapist = new Special 
+            var therapist = new Special
             {
                 Id = Guid.Parse("6E5D08FA-9E66-4639-9742-06F9DF4197A7"),
-                Name = "Терапевт" 
+                Name = "Терапевт"
             };
-            var surgeon = new Special 
+            var surgeon = new Special
             {
                 Id = Guid.Parse("627CEDC2-530D-4B35-9BEB-08E3B7E07F79"),
-                Name = "Хирург" 
+                Name = "Хирург"
             };
 
+            Console.WriteLine("Выберите врача");
+            var choose = new List<int>();
+            int number = 0;
+            foreach (var doc in doctors)
+            {
+                choose.Add(number);
+                Console.Write(doc.FullName);
+                Console.Write(" - ");
+                Console.WriteLine(choose[number]);
+            }
 
+            int.TryParse(Console.ReadLine(), out int numberOfDoc);
+            choose = null;
+            number = 0;
+            Doctor DocOfPatient = null;
+            foreach (var doc in doctors)
+            {
+                choose.Add(number);
+                if (numberOfDoc == choose[number])
+                {
+                    DocOfPatient = doc;
+                }
+                foreach (var schedule in scheduls)
+                {
+                    if (schedule.Id == DocOfPatient.ScheduleId && schedule.TimesOfVisitsId == visits[number])
+                    {
+                        Console.WriteLine(visits[number]);
+                    }
+                }
+            }
+
+            int.TryParse(Console.ReadLine(), out int numberOfVisit);
         }
 
 
